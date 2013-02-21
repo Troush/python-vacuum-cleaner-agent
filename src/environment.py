@@ -21,8 +21,8 @@ class Environment:
 	def __init__(self,f):
 		params = [float(x) for x in f.readline().split(' ')]
 		self.size = params[0]
-		self.positionX = params[1]
-		self.positionY = params[2]
+		self.positionX = int(params[1])
+		self.positionY = int(params[2])
 		self.dirty = params[3]
 		self.seed = params[4]
 		for itt in range(int(self.size)):
@@ -32,10 +32,10 @@ class Environment:
 			for sym in line:
 				if sym != ' ' and sym != '\n':
 					if y < self.size: 
-						if sym == self.MAP_ROAD:
+						if sym == MAP_ROAD:
 							l.append(0)
-						elif sym == self.MAP_OBSTACLE:
-							l.append(self.OBSTACLE)
+						elif sym == MAP_OBSTACLE:
+							l.append(OBSTACLE)
 						y+=1
 			self.maze.append(l)
 
@@ -53,22 +53,22 @@ class Environment:
 		self.bump = False
 		self.cleaned_dirt = 0
 		if action == 'UP':
-			if maze[self.positionX-1][self.positionY] != OBSTACLE: 
+			if self.maze[self.positionX-1][self.positionY] != OBSTACLE: 
 				self.positionX -=1
 			else:
 				self.bump = True
 		if action == 'DOWN':
-			if maze[self.positionX+1][self.positionY] != OBSTACLE: 
+			if self.maze[self.positionX+1][self.positionY] != OBSTACLE: 
 				self.positionX +=1
 			else:
 				self.bump = True
 		if action == 'LEFT':
-			if maze[self.positionX][self.positionY-1] != OBSTACLE:
+			if self.maze[self.positionX][self.positionY-1] != OBSTACLE:
 				self.positionY -=1
 			else:
 				self.bump = True
 		if action == 'RIGHT':
-			if maze[self.positionX][self.positionY+1] != OBSTACLE: 
+			if self.maze[self.positionX][self.positionY+1] != OBSTACLE: 
 				self.positionY +=1
 			else:
 				self.bump = True

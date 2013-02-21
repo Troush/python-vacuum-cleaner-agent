@@ -25,8 +25,8 @@ class Agent:
 		return "IDLE"
 
 	def prespective(self,env):
-		self.bump = env.is_bump()
-		self.dirty = env.is_dirty()
+		self.bump = env.bump
+		self.dirty = env.dirty
 
 	def think(self):
 		pass
