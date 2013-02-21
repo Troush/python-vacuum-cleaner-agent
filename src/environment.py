@@ -1,13 +1,9 @@
+OBSTACLE = -1
+MAP_ROAD = '-'
+MAP_OBSTACLE = 'O'
+CLEAN_PER_TIME = 10	
 
 class Environment:
-	
-
-	OBSTACLE = -1
-	MAP_ROAD = '-'
-	MAP_OBSTACLE = 'O'
-	CLEAN_PER_TIME = 10	
-
-
 	#Initial position, dirty probability, random seed, map
 	size = 0
 	positionX = 0
@@ -17,6 +13,10 @@ class Environment:
 	map_num = 0
 
 	maze = []
+
+	bump = False
+	cleaned_dirt = 0
+	new_dirt = 0
 
 	def __init__(self,f):
 		params = [float(x) for x in f.readline().split(' ')]
@@ -44,52 +44,52 @@ class Environment:
 			for line in self.maze:
 				print ['{0:3}'.format(x) for x in line]
 	
-	def dirt_amout(x,y):
+	def dirt_amout(self,x,y):
 		if self.maze[x][y] == OBSTACLE:
 			return 0
 		return maze[x][y]
 
-	def accept_action(action):
-		global bump = False
-		global cleaned_dirt = 0
+	def accept_action(self,action):
+		self.bump = False
+		self.cleaned_dirt = 0
 		if action == 'UP':
 			if maze[self.positionX-1][self.positionY] != OBSTACLE: 
 				self.positionX -=1
-			else global bump = True
-			break
+			else:
+				self.bump = True
 		if action == 'DOWN':
 			if maze[self.positionX+1][self.positionY] != OBSTACLE: 
 				self.positionX +=1
-			else global bump = True
-			break
+			else:
+				self.bump = True
 		if action == 'LEFT':
 			if maze[self.positionX][self.positionY-1] != OBSTACLE:
 				self.positionY -=1
-			else global bump = True
-			break
+			else:
+				self.bump = True
 		if action == 'RIGHT':
 			if maze[self.positionX][self.positionY+1] != OBSTACLE: 
 				self.positionY +=1
-			else global bump = True
-			break
+			else:
+				self.bump = True
 		if action == 'SUCK':
 			if maze[self.positionX][self.positionY] > 0:
-				if maze[positionX][positionY] > CLEAN_PER_TIME:
-					cleaned_dirt = CLEAN_PER_TIME 
+				if maze[self.positionX][self.positionY] > self.CLEAN_PER_TIME:
+					self.cleaned_dirt = self.CLEAN_PER_TIME 
 				else:
-					cleaned_dirt = maze[positionX][positionY]
+					self.cleaned_dirt = self.maze[positionX][positionY]
 	
-	def is_dirty():
-		return maze[self.positionX][self.positionY] > 0
+	def is_dirty(self):
+		return self.maze[self.positionX][self.positionY] > 0
 
-	def is_bump():
-		return bump
+	def is_bump(self):
+		return self.bump
 
 	def change():
 		import random
-		global newDirt = 0
+		self.new_dirty = 0
 		for pos in maze:
 			if pos != OBSTACLE and (random.random()/random.random()) < self.dirt*100:
 				pos += 1
-				global newDirt +=1
+				self.new_dirty +=1
 
