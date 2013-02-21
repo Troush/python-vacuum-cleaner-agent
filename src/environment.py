@@ -1,4 +1,7 @@
+
 class Environment:
+	
+
 	OBSTACLE = -1
 	MAP_ROAD = '-'
 	MAP_OBSTACLE = 'O'
@@ -36,11 +39,41 @@ class Environment:
 						y+=1
 						# print y,l
 			self.maze.append(l)
-		for line in self.maze:
-			print [' %s ' % x for x in line]
+
+		from main import DEBUG
+		if DEBUG:
+			for line in self.maze:
+				print ['{0:3}'.format(x) for x in line]
+	
 	def dirt_amout(x,y):
 		if self.maze[x][y] == OBSTACLE:
 			return 0
 		return maze[x][y]
 
-
+	def accept_action(action):
+		bump = False
+		cleaned_dirt = 0
+		if action == 'UP':
+			if maze[self.positionX-1][self.positionY] != OBSTACLE: self.positionX -=1
+			else bump = True
+			break
+		if action == 'DOWN':
+			if maze[self.positionX+1][self.positionY] != OBSTACLE: self.positionX +=1
+			else bump = True
+			break
+		if action == 'LEFT':
+			if maze[self.positionX][self.positionY-1] != OBSTACLE: self.positionY -=1
+			else bump = True
+			break
+		if action == 'RIGHT':
+			if maze[self.positionX][self.positionY+1] != OBSTACLE: self.positionY +=1
+			else bump = True
+			break
+		if action == 'SUCK':
+			if maze[self.positionX][self.positionY] > 0:
+				if maze[positionX][positionY] > CLEAN_PER_TIME:
+					cleaned_dirt = CLEAN_PER_TIME 
+				else:
+					cleaned_dirt = maze[positionX][positionY]
+	def isDirty():
+		return maze[self.positionX][self.positionY] > 0
