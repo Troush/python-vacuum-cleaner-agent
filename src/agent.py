@@ -29,6 +29,9 @@ class Agent:
 		self.dirty = env.dirty
 
 	def think(self):
-		pass
+		if self.dirty > 0.1:
+			return self.suck()
+		actions = [self.up(),self.down(),self.left(),self.right()]
+		return actions[int(random.random()*4)]
 
 		

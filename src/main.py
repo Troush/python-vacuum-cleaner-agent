@@ -10,10 +10,11 @@ def run(zone, agent, calculus):
 	agent.prespective(zone)
 
 	action = agent.think()
-	zone.accept_action('DOWN')
+	print action
+	zone.accept_action(action)
 	calculus.evaluete(action,zone)
 	zone.print_maze()
-	
+
 def main():
 	f = open('../map/first.map')
 	zone = env(f)

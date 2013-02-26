@@ -73,8 +73,8 @@ class Environment:
 			else:
 				self.bump = True
 		if action == 'SUCK':
-			if maze[self.positionX][self.positionY] > 0:
-				if maze[self.positionX][self.positionY] > self.CLEAN_PER_TIME:
+			if self.maze[self.positionX][self.positionY] > 0:
+				if self.maze[self.positionX][self.positionY] > self.CLEAN_PER_TIME:
 					self.cleaned_dirt = self.CLEAN_PER_TIME 
 				else:
 					self.cleaned_dirt = self.maze[positionX][positionY]
