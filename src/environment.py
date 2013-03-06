@@ -1,4 +1,4 @@
-OBSTACLE = -1
+OBSTACLE = '-1'
 MAP_ROAD = '-'
 MAP_OBSTACLE = 'O'
 CLEAN_PER_TIME = 10	
@@ -20,7 +20,7 @@ class Environment:
 
 	def __init__(self,f):
 		params = [float(x) for x in f.readline().split(' ')]
-		self.size = params[0]
+		self.size = int(params[0])
 		self.positionX = int(params[1])
 		self.positionY = int(params[2])
 		self.dirty = params[3]
@@ -38,11 +38,6 @@ class Environment:
 							l.append(OBSTACLE)
 						y+=1
 			self.maze.append(l)
-
-		from main import DEBUG
-		if DEBUG:
-			for line in self.maze:
-				print ['{0:3}'.format(x) for x in line]
 	
 	def dirt_amout(self,x,y):
 		if self.maze[x][y] == OBSTACLE:
@@ -85,13 +80,15 @@ class Environment:
 	def is_bump(self):
 		return self.bump
 
-	def change():
+	def change(self):
 		import random
 		self.new_dirty = 0
-		for pos in maze:
-			if pos != OBSTACLE and (random.random()/random.random()) < self.dirt*100:
-				pos += 1
-				self.new_dirty +=1
+		for idx,row in enumerate(self.maze):
+			for idy,col in enumerate(row): 
+				if col != OBSTACLE and (random.random()/self.seed) < self.dirty:
+					self.maze[idx][idy] = 1
+					self.new_dirty +=1
+
 	def print_maze(self):
 		value = self.maze[self.positionX][self.positionY]
 		self.maze[self.positionX][self.positionY] = '|@|'

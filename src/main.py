@@ -5,7 +5,7 @@ DEBUG = True
 
 
 def run(zone, agent, calculus):
-	zone.change
+	zone.change()
 
 	agent.prespective(zone)
 
@@ -13,12 +13,12 @@ def run(zone, agent, calculus):
 	print action
 	zone.accept_action(action)
 	calculus.evaluete(action,zone)
-	zone.print_maze()
+	# zone.print_maze()
 
 def main():
 	f = open('../map/first.map')
 	zone = env(f)
-	bond = Agent()
+	bond = Agent(zone)
 	current_time = 0
 	calculus = Evaluator()
 
