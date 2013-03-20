@@ -5,10 +5,14 @@ class Agent:
 	msg = ''
 	agent_map = []
 	last_action = None
+	posX = 0
+	posY = 0
 
-	def __init__(self,szone):
+	def __init__(self,zone):
 		self.msg = 'Hello World, i\'m Vacuum'
 		self.agent_map = [[0 for col in range(zone.size*2)] for row in range(zone.size*2)]
+		self.posX = zone.positionX
+		self.postY = zone.positionY
 
 	def up(self):
 		last_action = "UP"
@@ -37,13 +41,14 @@ class Agent:
 	def prespective(self,env):
 		self.bump = env.bump
 		self.dirty = env.dirty
+		self.posX, self.posY = env.positionX, env.positionY
+
+	def think_dummy(self):
+		import random
+		if self.dirty > 0.1:
+			return self.suck()
+		actions = [self.up(),self.down(),self.left(),self.right()]
+		return actions[int(random.random()*4)]
 
 	def think(self):
-		if agent_map:
-			if self.bump:
-
-		# import random
-		# if self.dirty > 0.1:
-		# 	return self.suck()
-		# actions = [self.up(),self.down(),self.left(),self.right()]
-		# return actions[int(random.random()*4)]
+		pass
