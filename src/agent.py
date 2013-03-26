@@ -40,7 +40,7 @@ class Agent:
 
 	def prespective(self,env):
 		self.bump = env.bump
-		self.dirty = env.dirty
+		self.dirty = env.dirt_amout(self.posX,self.posY)
 		self.posX, self.posY = env.positionX, env.positionY
 
 	def think_dummy(self):

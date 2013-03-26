@@ -1,7 +1,7 @@
 OBSTACLE = '-1'
 MAP_ROAD = '-'
 MAP_OBSTACLE = 'O'
-CLEAN_PER_TIME = 10	
+CLEAN_PER_TIME = 10
 
 class Environment:
 	#Initial position, dirty probability, random seed, map
@@ -31,29 +31,29 @@ class Environment:
 			l = []
 			for sym in line:
 				if sym != ' ' and sym != '\n':
-					if y < self.size: 
+					if y < self.size:
 						if sym == MAP_ROAD:
 							l.append(0)
 						elif sym == MAP_OBSTACLE:
 							l.append(OBSTACLE)
 						y+=1
 			self.maze.append(l)
-	
+
 	def dirt_amout(self,x,y):
 		if self.maze[x][y] == OBSTACLE:
 			return 0
-		return maze[x][y]
+		return self.maze[x][y]
 
 	def accept_action(self,action):
 		self.bump = False
 		self.cleaned_dirt = 0
 		if action == 'UP':
-			if self.maze[self.positionX-1][self.positionY] != OBSTACLE: 
+			if self.maze[self.positionX-1][self.positionY] != OBSTACLE:
 				self.positionX -=1
 			else:
 				self.bump = True
 		if action == 'DOWN':
-			if self.maze[self.positionX+1][self.positionY] != OBSTACLE: 
+			if self.maze[self.positionX+1][self.positionY] != OBSTACLE:
 				self.positionX +=1
 			else:
 				self.bump = True
@@ -63,17 +63,21 @@ class Environment:
 			else:
 				self.bump = True
 		if action == 'RIGHT':
-			if self.maze[self.positionX][self.positionY+1] != OBSTACLE: 
+			if self.maze[self.positionX][self.positionY+1] != OBSTACLE:
 				self.positionY +=1
 			else:
 				self.bump = True
 		if action == 'SUCK':
 			if self.maze[self.positionX][self.positionY] > 0:
-				if self.maze[self.positionX][self.positionY] > self.CLEAN_PER_TIME:
-					self.cleaned_dirt = self.CLEAN_PER_TIME 
+				dirt = self.maze[self.positionX][self.positionY]
+				if dirt > CLEAN_PER_TIME:
+					self.cleaned_dirt = dirt
+					self.maze[self.positionX][self.positionY] =\
+						dirt - CLEAN_PER_TIME
 				else:
-					self.cleaned_dirt = self.maze[positionX][positionY]
-	
+					self.cleaned_dirt = dirt
+					self.maze[self.positionX][self.positionY] = 0
+
 	def is_dirty(self):
 		return self.maze[self.positionX][self.positionY] > 0
 
@@ -84,7 +88,7 @@ class Environment:
 		import random
 		self.new_dirty = 0
 		for idx,row in enumerate(self.maze):
-			for idy,col in enumerate(row): 
+			for idy,col in enumerate(row):
 				if col != OBSTACLE and (random.random()/self.seed) < self.dirty:
 					self.maze[idx][idy] = 1
 					self.new_dirty +=1
